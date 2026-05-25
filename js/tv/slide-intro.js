@@ -4,12 +4,18 @@ export function renderIntroSlide({ intro = {}, pros = [], globals = {} }) {
   const section = document.createElement('section');
   section.className = 'slide';
 
-  const headline = intro.headline || 'Els nostres';
+  const headline = intro.headline || '';
+  const headlineLogo = intro.headlineLogo || '';
   const headlineAccent = intro.headlineAccent || 'serveis';
+  const eyebrow = intro.eyebrow || 'Els nostres';
   const subline = intro.subline || 'Coneix els professionals del box i agenda visita.';
   const coachLine = intro.coachLine || 'BUILD STRENGTH TOGETHER';
   const coords = globals.coords || '41°38\'28"N 2°01\'04"E';
   const tagline = globals.tagline || 'LIFT. BREATHE. REPEAT.';
+
+  const headlineMarkup = headlineLogo
+    ? `<img class="brand-mark" src="${esc(headlineLogo)}" alt="La Mola" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'La Mola'}))"> <em>${esc(headlineAccent)}.</em>`
+    : `${esc(headline)}<br><em>${esc(headlineAccent)}.</em>`;
 
   const tilesHtml = pros.slice(0, 4).map((p, i) => {
     const photo = p.media?.photoSrc || p.media?.posterSrc || '';
@@ -36,8 +42,8 @@ export function renderIntroSlide({ intro = {}, pros = [], globals = {} }) {
     <div class="intro">
       <div class="left">
         <div>
-          <div class="eyebrow">${esc(headline)}</div>
-          <h1 class="h-display">${esc(headline)}<br><em>${esc(headlineAccent)}.</em></h1>
+          <div class="eyebrow">${esc(eyebrow)}</div>
+          <h1 class="h-display">${headlineMarkup}</h1>
           <p class="sub">${esc(subline)}</p>
           <div class="coachLine">${esc(coachLine)}</div>
         </div>

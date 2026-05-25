@@ -7,8 +7,9 @@
   },
   "intro": {
     "active": true,
-    "headline": "Els nostres",
-    "headlineAccent": "serveis",
+    "headlineLogo": "media/brand/logo-short.png",
+    "headlineAccent": "Recovery",
+    "eyebrow": "Espai de benestar",
     "subline": "Coneix els professionals del box i agenda visita.",
     "coachLine": "BUILD STRENGTH TOGETHER"
   },

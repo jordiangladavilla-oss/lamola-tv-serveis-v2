@@ -168,7 +168,17 @@ body {
   flex: 1; margin-top: 36px;
 }
 .intro .left { display: flex; flex-direction: column; justify-content: space-between; padding-top: 8px; }
-.intro .h-display { margin: 32px 0 0; }
+.intro .h-display { margin: 32px 0 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.intro .h-display .brand-mark {
+  display: block;
+  height: 132px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+  filter: invert(1);
+}
+.intro .h-display em { line-height: 0.9; }
 .intro .sub { margin-top: 28px; font-size: 28px; color: var(--bone-mute); line-height: 1.4; max-width: 32ch; }
 .intro .coachLine {
   margin-top: 36px; font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.32em;
