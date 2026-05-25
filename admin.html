@@ -183,6 +183,17 @@
     .bullets-list .bullet-row input { flex: 1; }
     .bullets-list .bullet-row button { flex-shrink: 0; }
 
+    .card-del {
+      appearance: none; background: transparent;
+      border: 1px solid rgba(232,124,108,0.3); color: #e89e8a;
+      width: 28px; height: 28px; border-radius: 6px;
+      cursor: pointer; font-size: 12px;
+      display: inline-grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .card-del:hover { background: rgba(232,124,108,0.15); }
+    .add-card { background: transparent !important; border: 1px dashed rgba(243,236,217,0.2) !important; }
+
     .preview-wrap {
       position: sticky; top: 130px;
       align-self: start;
@@ -402,28 +413,37 @@
     introCard.className = 'card';
     introCard.innerHTML = `
       <div class="card-head">
-        <span class="name">Slide d'<em>intro</em></span>
-        <span class="tag">Bucle</span>
+        <span class="name">Portada · <em>intro</em></span>
+        <span class="tag">Slide 01</span>
         <span class="toggle ${intro.active !== false ? 'on' : ''}" data-toggle="intro.active"></span>
         <span class="chev">▾</span>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="field">
-            <label>Títol</label>
-            <input data-bind="intro.headline" value="${esc(intro.headline || '')}">
+            <label>Eyebrow (text petit sobre el títol)</label>
+            <input data-bind="intro.eyebrow" value="${esc(intro.eyebrow || '')}" placeholder="Espai de benestar">
           </div>
           <div class="field">
-            <label>Accent (en italic)</label>
-            <input data-bind="intro.headlineAccent" value="${esc(intro.headlineAccent || '')}">
+            <label>Accent italic (paraula daurada)</label>
+            <input data-bind="intro.headlineAccent" value="${esc(intro.headlineAccent || '')}" placeholder="Recovery">
           </div>
+        </div>
+        <div class="field">
+          <label>Logo del títol (path o URL)</label>
+          <input data-bind="intro.headlineLogo" value="${esc(intro.headlineLogo || '')}" placeholder="media/brand/logo-short.png">
+          <div class="hint">Si està emplenat, surt el logo. Buit = es fa servir el text del camp següent.</div>
+        </div>
+        <div class="field">
+          <label>Títol en text (alternativa al logo)</label>
+          <input data-bind="intro.headline" value="${esc(intro.headline || '')}" placeholder="Els nostres">
         </div>
         <div class="field">
           <label>Subtítol</label>
           <textarea data-bind="intro.subline" rows="2">${esc(intro.subline || '')}</textarea>
         </div>
         <div class="field">
-          <label>Línia coach</label>
+          <label>Línia coach (footer del slide)</label>
           <input data-bind="intro.coachLine" value="${esc(intro.coachLine || '')}">
         </div>
       </div>`;
@@ -444,6 +464,7 @@
           <span class="name">${esc(p.name || '(sense nom)')}</span>
           <span class="tag">${esc(p.specialtyShort || p.specialty || '')}</span>
           <span class="toggle ${p.active !== false ? 'on' : ''}" data-toggle="pro|${p.id}|active"></span>
+          <button class="card-del" data-del-pro="${p.id}" title="Eliminar professional">✕</button>
           <span class="chev">▾</span>
         </div>
         <div class="card-body">
@@ -504,8 +525,62 @@
       root.appendChild(card);
     });
 
+    // Add new pro button
+    const addCard = document.createElement('div');
+    addCard.className = 'card add-card';
+    addCard.innerHTML = `<button class="btn primary" id="btn-add-pro" style="width: 100%; padding: 16px;">+ Afegir nou professional</button>`;
+    root.appendChild(addCard);
+
     bindCardCollapse();
     bindAllInputs();
+    bindAddDeletePro();
+  }
+
+  function bindAddDeletePro() {
+    // Delete pro
+    $$('[data-del-pro]').forEach(b => {
+      if (b.dataset.bound) return;
+      b.dataset.bound = '1';
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = b.dataset.delPro;
+        const pro = DATA.professionals.find(p => p.id === id);
+        if (!pro) return;
+        if (!confirm(`Eliminar "${pro.name}"?\n\nNo serà definitiu fins que publiquis. Pots descartar canvis si t'equivoques.`)) return;
+        DATA.professionals = DATA.professionals.filter(p => p.id !== id);
+        saveDraft();
+        renderPros();
+        statusMsg(`"${pro.name}" eliminat (encara no publicat)`, 'info', 3000);
+      });
+    });
+    // Add new pro
+    const addBtn = document.getElementById('btn-add-pro');
+    if (addBtn && !addBtn.dataset.bound) {
+      addBtn.dataset.bound = '1';
+      addBtn.addEventListener('click', () => {
+        const name = prompt('Nom complet del nou professional:');
+        if (!name || !name.trim()) return;
+        const specialty = (prompt('Especialitat (ex: Fisioteràpia, Massatge, Osteopatia):') || 'Servei').trim();
+        const phone = (prompt('Telèfon WhatsApp amb prefix 34 (ex: 34690020769):') || '').replace(/\D/g, '');
+        const idBase = name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 20);
+        const id = idBase + '-' + Math.random().toString(36).slice(2, 5);
+        const maxOrder = Math.max(0, ...(DATA.professionals || []).map(p => p.order || 0));
+        const newPro = {
+          id, active: true, order: maxOrder + 1,
+          name: name.trim(), specialty, specialtyShort: specialty.split(' ')[0],
+          bullets: ['Servei principal', 'Servei secundari', 'Atenció personalitzada'],
+          media: { type: 'photo', videoSrc: '', posterSrc: '', photoSrc: '', logoSrc: null },
+          whatsapp: { phone, messageOverride: null },
+          accentColor: '#7a7048',
+          ctaLabel: 'Escaneja i agenda visita'
+        };
+        DATA.professionals = DATA.professionals || [];
+        DATA.professionals.push(newPro);
+        saveDraft();
+        renderPros();
+        statusMsg(`"${name}" afegit. Edita els camps i publica quan estigui llest.`, 'ok', 4000);
+      });
+    }
   }
 
   function renderMerch() {
