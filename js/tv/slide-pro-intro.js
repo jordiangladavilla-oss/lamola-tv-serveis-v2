@@ -17,7 +17,7 @@ export function renderProIntroSlide({ pro, n, total }) {
       <div class="stack">
         <div class="n">${String(n).padStart(2, '0')} · ELS NOSTRES SERVEIS</div>
         <div class="nm">${renderSpecialtyMarkup(pro.specialty)}</div>
-        <div class="sp">amb ${esc(pro.name || '')}</div>
+        <div class="sp"><span class="sp-label">amb</span> <span class="sp-name">${esc(pro.name || '')}</span></div>
       </div>
     </div>
   `;

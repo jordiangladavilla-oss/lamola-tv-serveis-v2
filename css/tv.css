@@ -258,12 +258,19 @@ body {
 }
 .proIntro .nm em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--accent-hi); }
 .proIntro .sp {
-  font-family: var(--f-mono); font-size: 18px; letter-spacing: 0.32em;
-  color: var(--bone-mute); text-transform: uppercase;
-  display: inline-flex; align-items: center; gap: 18px;
+  display: inline-flex; align-items: baseline; gap: 18px;
 }
 .proIntro .sp::before, .proIntro .sp::after {
-  content: ""; width: 60px; height: 1px; background: var(--ink-line-2);
+  content: ""; align-self: center; width: 60px; height: 1px; background: var(--ink-line-2);
+}
+.proIntro .sp .sp-label {
+  font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.32em;
+  color: var(--accent-hi); text-transform: uppercase; opacity: 0.7;
+}
+.proIntro .sp .sp-name {
+  font-family: var(--f-serif); font-style: italic; font-weight: 400;
+  font-size: 40px; line-height: 1; color: var(--bone);
+  letter-spacing: -0.005em;
 }
 
 /* ============================================================ */
@@ -356,6 +363,19 @@ body {
 }
 .pro .specialty::before {
   content: ""; width: 36px; height: 1px; background: var(--accent-hi);
+}
+.pro .pro-credit {
+  display: flex; align-items: baseline; gap: 18px;
+  margin-top: 4px;
+}
+.pro .pro-credit .credit-label {
+  font-family: var(--f-mono); font-size: 13px; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--accent-hi); opacity: 0.65;
+}
+.pro .pro-credit .credit-name {
+  font-family: var(--f-serif); font-style: italic; font-weight: 400;
+  font-size: 46px; line-height: 1; letter-spacing: -0.005em;
+  color: var(--accent-hi);
 }
 .pro .bullets { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
 .pro .bullets li {

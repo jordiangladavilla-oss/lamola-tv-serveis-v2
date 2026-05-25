@@ -47,7 +47,10 @@ export function renderProSlide({ pro, n, total, globals = {} }) {
           <span class="rule"></span>
           <span>Coffee Corner</span>
         </div>
-        <div class="specialty">amb ${esc(pro.name || '')}</div>
+        <div class="pro-credit">
+          <span class="credit-label">amb</span>
+          <span class="credit-name">${esc(pro.name || '')}</span>
+        </div>
         <h2 class="name">${renderSpecialtyMarkup(pro.specialty)}</h2>
         <ul class="bullets">${bulletsHtml}</ul>
         <div class="qr">
