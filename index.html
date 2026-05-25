@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>La Mola · Serveis</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#100e0b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" as="font" type="font/woff2" href="fonts/montserrat-latin-500-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/montserrat-latin-800-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/instrument-serif-latin-400-italic.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/jetbrains-mono-latin-400-normal.woff2" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/tv.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23100e0b'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Helvetica' font-weight='800' font-size='28' fill='%23f3ecd9'%3ELM%3C/text%3E%3Ccircle cx='48' cy='30' r='3' fill='%23b9a972'/%3E%3C/svg%3E" type="image/svg+xml">
+</head>
+<body class="tv">
+  <div class="stage-wrap">
+    <div class="stage" id="stage">
+
+      <!-- HUD top -->
+      <div class="hud">
+        <div class="hud-left">
+          <span class="hud-brand">LA MOLA<em>.</em></span>
+          <span class="hud-sep">·</span>
+          <span class="hud-coords" id="hud-coords">41°38'28"N 2°01'04"E</span>
+        </div>
+        <div class="hud-mid">
+          <span class="live-dot"></span>
+          <span class="hud-coords" style="color: var(--bone);">Coffee Corner · Serveis</span>
+        </div>
+        <div class="hud-right">
+          <span class="hud-tagline" id="hud-tagline">LIFT. BREATHE. REPEAT.</span>
+          <span class="hud-sep">·</span>
+          <span class="hud-clock" id="hud-clock">--:--<span class="ms">:--</span></span>
+        </div>
+      </div>
+
+      <!-- Slide body -->
+      <div class="body" id="body"></div>
+
+      <!-- HUD bottom -->
+      <div class="hud-bottom">
+        <div class="col">
+          <span class="label">Ara</span>
+          <span class="value" id="hud-now">—</span>
+        </div>
+        <div class="col" style="justify-content: center;">
+          <div class="dots" id="hud-dots"></div>
+        </div>
+        <div class="col right">
+          <span class="label">Slide</span>
+          <span class="value mono"><strong id="hud-idx">01</strong> / <span id="hud-total">01</span></span>
+          <span class="hud-sep" style="color: var(--bone-dim);">·</span>
+          <span class="label" id="hud-state">En reproducció</span>
+        </div>
+      </div>
+
+      <!-- Overlays -->
+      <div class="overlay" id="loading">
+        <div class="overlay-brand">LA MOLA<em>.</em></div>
+        <div class="overlay-spinner"></div>
+        <div class="overlay-msg">Carregant serveis…</div>
+      </div>
+      <div class="overlay" id="error" hidden>
+        <div class="overlay-brand">LA MOLA<em>.</em></div>
+        <div class="overlay-msg">Reintentant connexió…</div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/tv/vendor/qrcode.min.js"></script>
+  <script type="module" src="js/tv/main.js"></script>
+</body>
+</html>

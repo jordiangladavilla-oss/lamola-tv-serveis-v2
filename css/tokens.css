@@ -1,0 +1,47 @@
+/* La Mola · Serveis — design tokens + self-hosted fonts */
+
+/* Montserrat (display + body) */
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/montserrat-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 500; font-display: swap; src: url('../fonts/montserrat-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 500; font-display: swap; src: url('../fonts/montserrat-latin-500-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 600; font-display: swap; src: url('../fonts/montserrat-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 800; font-display: swap; src: url('../fonts/montserrat-latin-800-normal.woff2') format('woff2'); }
+
+/* Instrument Serif (editorial italics) */
+@font-face { font-family: 'Instrument Serif'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/instrument-serif-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Instrument Serif'; font-style: italic; font-weight: 400; font-display: swap; src: url('../fonts/instrument-serif-latin-400-italic.woff2') format('woff2'); }
+
+/* JetBrains Mono (labels, coords, mono UI) */
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('../fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2'); }
+
+:root {
+  /* Surface */
+  --ink:        #100e0b;
+  --ink-soft:   #18150f;
+  --ink-deep:   #0a0907;
+  --ink-line:   rgba(243, 236, 217, 0.10);
+  --ink-line-2: rgba(243, 236, 217, 0.18);
+
+  /* Foreground */
+  --bone:       #f3ecd9;
+  --bone-mute:  rgba(243, 236, 217, 0.62);
+  --bone-dim:   rgba(243, 236, 217, 0.36);
+
+  /* Accents */
+  --accent-hi:  #b9a972;   /* warm gold — primary  */
+  --accent-lo:  #7a7048;   /* deep olive-gold      */
+  --live:       #e89e8a;
+
+  /* Type */
+  --f-display:  "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --f-serif:    "Instrument Serif", "Cormorant Garamond", "Times New Roman", serif;
+  --f-mono:     "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Motion */
+  --ease:       cubic-bezier(0.2, 0.7, 0.1, 1);
+
+  /* Burn-in safe insets (used for HUD drift on long sessions) */
+  --safe-x: 0px;
+  --safe-y: 0px;
+}
