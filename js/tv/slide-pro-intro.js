@@ -6,10 +6,6 @@ export function renderProIntroSlide({ pro, n, total }) {
   const accent = pro.accentColor;
   if (accent) section.style.setProperty('--accent-hi', accent);
 
-  const parts = (pro.name || '').split(' ');
-  const firstName = parts[0] || '';
-  const lastName = parts.slice(1).join(' ');
-
   section.innerHTML = `
     <div class="kicker">
       <span class="num">${String(n).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span>
@@ -19,13 +15,24 @@ export function renderProIntroSlide({ pro, n, total }) {
     </div>
     <div class="proIntro">
       <div class="stack">
-        <div class="n">${String(n).padStart(2, '0')} · ${esc(pro.specialtyShort || pro.specialty || '')}</div>
-        <div class="nm">${esc(firstName)} <em>${esc(lastName)}</em></div>
-        <div class="sp">${esc(pro.specialty || '')}</div>
+        <div class="n">${String(n).padStart(2, '0')} · ELS NOSTRES SERVEIS</div>
+        <div class="nm">${renderSpecialtyMarkup(pro.specialty)}</div>
+        <div class="sp">amb ${esc(pro.name || '')}</div>
       </div>
     </div>
   `;
   return section;
+}
+
+function renderSpecialtyMarkup(spec) {
+  if (!spec) return '';
+  const parts = spec.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return esc(parts[0]) + ' <em>' + esc(parts.slice(1).join(' ')) + '</em>';
+  }
+  // Compound single words with editorial italic split
+  if (/^Fisioteràpia$/i.test(spec)) return 'Fisio<em>teràpia</em>';
+  return esc(spec);
 }
 
 function esc(s) {

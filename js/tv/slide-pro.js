@@ -9,7 +9,6 @@ export function renderProSlide({ pro, n, total, globals = {} }) {
 
   const parts = (pro.name || '').split(' ');
   const firstName = parts[0] || '';
-  const lastName = parts.slice(1).join(' ');
 
   const message = (pro.whatsapp?.messageOverride || globals.whatsappDefaultMessage || '').trim();
   const url = whatsappUrl(pro.whatsapp?.phone, message);
@@ -48,8 +47,8 @@ export function renderProSlide({ pro, n, total, globals = {} }) {
           <span class="rule"></span>
           <span>Coffee Corner</span>
         </div>
-        <div class="specialty">${esc(pro.specialty || '')}</div>
-        <h2 class="name">${esc(firstName)}<br><em>${esc(lastName)}</em></h2>
+        <div class="specialty">amb ${esc(pro.name || '')}</div>
+        <h2 class="name">${renderSpecialtyMarkup(pro.specialty)}</h2>
         <ul class="bullets">${bulletsHtml}</ul>
         <div class="qr">
           <div class="qrbox" data-qr>
@@ -94,6 +93,16 @@ export function renderProSlide({ pro, n, total, globals = {} }) {
   }
 
   return section;
+}
+
+function renderSpecialtyMarkup(spec) {
+  if (!spec) return '';
+  const parts = spec.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return esc(parts[0]) + ' <em>' + esc(parts.slice(1).join(' ')) + '</em>';
+  }
+  if (/^Fisioteràpia$/i.test(spec)) return 'Fisio<em>teràpia</em>';
+  return esc(spec);
 }
 
 function esc(s) {

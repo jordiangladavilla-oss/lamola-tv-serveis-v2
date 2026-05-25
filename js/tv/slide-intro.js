@@ -18,8 +18,8 @@ export function renderIntroSlide({ intro = {}, pros = [], globals = {} }) {
         ${photo ? `<img class="tile-photo" src="${esc(photo)}" alt="" onerror="this.remove()"><div class="tile-vignette"></div>` : '<div class="ph"></div>'}
         <div class="num">${String(i + 1).padStart(2, '0')}</div>
         <div class="meta">
-          <div class="name">${esc(p.name || '')}</div>
-          <div class="spec">${esc(p.specialtyShort || p.specialty || '')}</div>
+          <div class="name">${esc(p.specialty || '')}</div>
+          <div class="spec">amb ${esc(p.name || '')}</div>
         </div>
       </div>
     `;
