@@ -45,8 +45,12 @@ function hideOverlays() {
   if (loading) { loading.style.opacity = '0'; setTimeout(() => loading.hidden = true, 700); }
   if (errorScreen) errorScreen.hidden = true;
 }
-function showError() {
-  if (errorScreen) errorScreen.hidden = false;
+function showError(detail) {
+  if (errorScreen) {
+    errorScreen.hidden = false;
+    const msgEl = errorScreen.querySelector('.overlay-msg');
+    if (msgEl && detail) msgEl.textContent = 'ERROR · ' + String(detail).slice(0, 120);
+  }
   if (loading) loading.hidden = true;
 }
 
@@ -74,7 +78,7 @@ async function bootstrap() {
     hideOverlays();
   } catch (err) {
     console.error('[main] bootstrap failed', err);
-    showError();
+    showError(err?.message || err);
     setTimeout(bootstrap, 30_000);
   }
 }

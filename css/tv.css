@@ -440,6 +440,7 @@ body {
   display: grid; place-items: center; gap: 22px;
   background: var(--ink);
 }
+.overlay[hidden] { display: none !important; }
 .overlay-brand {
   font-family: var(--f-display); font-weight: 800; font-size: 64px; letter-spacing: -0.02em;
 }
