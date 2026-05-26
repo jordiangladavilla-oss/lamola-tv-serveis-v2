@@ -19,10 +19,13 @@ export function renderProSlide({ pro, n, total, globals = {} }) {
   const posterSrc = media.posterSrc || media.photoSrc || '';
   const photoSrc = media.photoSrc || posterSrc;
 
+  // Inline styles guarantee object-fit/positioning on older smart-TV browsers
+  // that may ignore class-based CSS for the video element after metadata loads.
+  const mediaStyle = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;';
   const mediaInner = videoSrc
-    ? `<video src="${escAttr(videoSrc)}" poster="${escAttr(posterSrc)}" muted playsinline loop autoplay preload="auto"></video>`
+    ? `<video src="${escAttr(videoSrc)}" poster="${escAttr(posterSrc)}" muted playsinline loop autoplay preload="auto" style="${mediaStyle}"></video>`
     : photoSrc
-      ? `<img src="${escAttr(photoSrc)}" alt="${escAttr(pro.name || '')}">`
+      ? `<img src="${escAttr(photoSrc)}" alt="${escAttr(pro.name || '')}" style="${mediaStyle}">`
       : `<div class="ph">Vídeo · ${esc(pro.specialtyShort || pro.specialty || '')}</div>`;
 
   const bullets = Array.isArray(pro.bullets) ? pro.bullets : [];
@@ -99,13 +102,7 @@ export function renderProSlide({ pro, n, total, globals = {} }) {
 }
 
 function renderSpecialtyMarkup(spec) {
-  if (!spec) return '';
-  const parts = spec.trim().split(/\s+/);
-  if (parts.length >= 2) {
-    return esc(parts[0]) + ' <em>' + esc(parts.slice(1).join(' ')) + '</em>';
-  }
-  if (/^Fisioteràpia$/i.test(spec)) return 'Fisio<em>teràpia</em>';
-  return esc(spec);
+  return esc(spec || '');
 }
 
 function esc(s) {

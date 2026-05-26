@@ -1,6 +1,5 @@
 // Carousel: build queue, drive slides, animate bottom progress dots.
 import { renderIntroSlide } from './slide-intro.js';
-import { renderProIntroSlide } from './slide-pro-intro.js';
 import { renderProSlide } from './slide-pro.js';
 import { renderMerchSlide } from './slide-merch.js';
 
@@ -59,20 +58,17 @@ export class Carousel {
       .filter(p => p.active !== false)
       .sort((a, b) => (a.order || 0) - (b.order || 0));
 
-    if (s.intro?.active !== false) {
-      q.push({
-        key: 'intro', kind: 'intro', label: 'Intro · Els nostres serveis',
-        durationMs: dur.intro,
-        render: () => renderIntroSlide({ intro: s.intro || {}, pros, globals: s.globals || {} })
-      });
-    }
+    const introActive = s.intro?.active !== false;
+    const makeIntro = (idx) => ({
+      key: `intro-${idx}`, kind: 'intro', label: 'La Mola · Recovery',
+      durationMs: dur.intro,
+      render: () => renderIntroSlide({ intro: s.intro || {}, pros, globals: s.globals || {} })
+    });
+    let introCount = 0;
+
+    // Intro acts as the rhythmic separator between pros.
     pros.forEach((p, i) => {
-      q.push({
-        key: `proIntro-${p.id}`, kind: 'proIntro',
-        label: `${String(i+1).padStart(2,'0')}/${String(pros.length).padStart(2,'0')} · Presentació`,
-        durationMs: dur.proIntro,
-        render: () => renderProIntroSlide({ pro: p, n: i + 1, total: pros.length })
-      });
+      if (introActive) q.push(makeIntro(introCount++));
       q.push({
         key: `pro-${p.id}`, kind: 'pro',
         label: `${String(i+1).padStart(2,'0')}/${String(pros.length).padStart(2,'0')} · ${p.specialty || ''}`,
