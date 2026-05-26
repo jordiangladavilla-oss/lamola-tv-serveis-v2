@@ -297,7 +297,7 @@
       <div class="modal-fields">
         <div class="field">
           <label>Repositori (usuari/repo)</label>
-          <input id="gh-repo" placeholder="jordiangladavilla-oss/lamola-tv-serveis">
+          <input id="gh-repo" placeholder="jordiangladavilla-oss/lamola-tv-serveis-v2">
         </div>
         <div class="field">
           <label>Branca</label>
@@ -897,7 +897,7 @@
   // ===== Publish =====
   $('#btn-publish').addEventListener('click', () => {
     const cfg = loadGhConfig();
-    $('#gh-repo').value = cfg.repo || 'jordiangladavilla-oss/lamola-tv-serveis';
+    $('#gh-repo').value = cfg.repo || 'jordiangladavilla-oss/lamola-tv-serveis-v2';
     $('#gh-branch').value = cfg.branch || 'main';
     $('#gh-token').value = cfg.token || '';
     $('#modal-gh').classList.add('on');
