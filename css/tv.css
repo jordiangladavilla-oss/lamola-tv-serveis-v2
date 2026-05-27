@@ -288,10 +288,20 @@ body {
   background: var(--ink-soft);
 }
 .pro .media .ph,
-.pro .media img,
-.pro .media video {
+.pro .media img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Cover universal: alguns navegadors de smart TV ignoren object-fit en <video>,
+   deixant el vídeo vertical amb franges negres als costats. Aquesta tècnica
+   (mida mínima 100% + transform) cobreix el contenidor sense dependre d'object-fit. */
+.pro .media video {
+  position: absolute;
+  top: 0; left: 50%;
+  width: auto; height: auto;
+  min-width: 100%; min-height: 100%;
+  transform: translateX(-50%);
   object-fit: cover;
 }
 .pro .media .ph {

@@ -19,13 +19,17 @@ export function renderProSlide({ pro, n, total, globals = {} }) {
   const posterSrc = media.posterSrc || media.photoSrc || '';
   const photoSrc = media.photoSrc || posterSrc;
 
-  // Inline styles guarantee object-fit/positioning on older smart-TV browsers
-  // that may ignore class-based CSS for the video element after metadata loads.
-  const mediaStyle = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;';
+  // Inline styles guarantee positioning on older smart-TV browsers that may ignore
+  // class-based CSS for the video element after metadata loads.
+  // Per a <video>: molts navegadors de smart TV IGNOREN object-fit en vídeos, deixant
+  // el vídeo vertical amb franges negres als costats. Per això es força el "cover" amb
+  // min-width/min-height 100% + transform, que funciona a tots els navegadors.
+  const imgStyle = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;';
+  const videoStyle = 'position:absolute;top:0;left:50%;width:auto;height:auto;min-width:100%;min-height:100%;transform:translateX(-50%);object-fit:cover;object-position:center top;';
   const mediaInner = videoSrc
-    ? `<video src="${escAttr(videoSrc)}" poster="${escAttr(posterSrc)}" muted playsinline loop autoplay preload="auto" style="${mediaStyle}"></video>`
+    ? `<video src="${escAttr(videoSrc)}" poster="${escAttr(posterSrc)}" muted playsinline loop autoplay preload="auto" style="${videoStyle}"></video>`
     : photoSrc
-      ? `<img src="${escAttr(photoSrc)}" alt="${escAttr(pro.name || '')}" style="${mediaStyle}">`
+      ? `<img src="${escAttr(photoSrc)}" alt="${escAttr(pro.name || '')}" style="${imgStyle}">`
       : `<div class="ph">Vídeo · ${esc(pro.specialtyShort || pro.specialty || '')}</div>`;
 
   const bullets = Array.isArray(pro.bullets) ? pro.bullets : [];
